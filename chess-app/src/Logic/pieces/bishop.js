@@ -1,5 +1,4 @@
 import { isOpponentPiece } from '../utils/helpers'
-import { board } from '../../components/Chessboard'
 
 export default function getBishopMoves(x, y, color) {
 

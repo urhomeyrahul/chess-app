@@ -1,7 +1,7 @@
 import { isOpponentPiece } from '../utils/helpers'
 import { board } from '../../components/Chessboard'
 
-export default function rook(x, y, color) {
+export default function getRookMoves(x, y, color) {
 
     const moves = [];
     const direction = [
