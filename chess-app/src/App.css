@@ -1,6 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
+  width: 780px;
   padding: 2rem;
   text-align: center;
 }
@@ -11,9 +12,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +25,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -39,4 +43,33 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentContainer {
+  margin-top: 1%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.customCard {
+  background-color: #000000;
+  padding: 2.5rem;
+  border: 5px solid #e5e7eb;
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }

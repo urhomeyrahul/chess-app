@@ -1,5 +1,5 @@
-import { isOpponentPiece } from '../utils/helpers'
-import { board } from '../../components/Chessboard'
+import isOpponentPiece from '../utils/helpers'
+import { initialBoard } from '../gamestat';
 
 export default function getKingMoves(x, y, color) {
 
@@ -20,7 +20,7 @@ export default function getKingMoves(x, y, color) {
         const ny = y + dy;
 
         if (nx < 0 || nx >= 8 || ny < 0 || ny >= 8) continue;
-        const target = board[nx][ny];
+        const target = initialBoard[nx][ny];
 
         if (target === '' || isOpponentPiece(target, color)) {
             moves.push([nx, ny]);

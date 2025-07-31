@@ -1,5 +1,5 @@
-import { isOpponentPiece } from '../utils/helpers'
-import { board } from '../../components/Chessboard'
+import isOpponentPiece from '../utils/helpers'
+import { initialBoard } from '../gamestat';
 
 export default function getRookMoves(x, y, color) {
 
@@ -16,13 +16,13 @@ export default function getRookMoves(x, y, color) {
         let ny = y + dy;
 
         while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
-            const target = board[nx][ny];
+            const target = initialBoard[nx][ny];
             if (target === '') {
-                moves.push(board[nx][ny]);
+                moves.push(initialBoard[nx][ny]);
             }
             else {
                 if (isOpponentPiece(target, color)) {
-                    moves.push(board[nx][ny]);
+                    moves.push(initialBoardinitialBoardinitialBoard[nx][ny]);
                     break;
                 }
             }

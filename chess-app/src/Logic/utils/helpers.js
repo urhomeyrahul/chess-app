@@ -1,4 +1,4 @@
-export default function isOppositePiece(piece, color) {
+export default function isOpponentPiece(piece, color) {
 
     if (!piece)
         return false;

@@ -1,18 +1,12 @@
-import React from "react";
+import pieceMap from "../assets/pieceMap";
 
 function Piece({ type }) {
-
-    const isWhite = type === type.toUpperCase();
-    const name = type.toLowerCase();
-
-    const src = `/assets/pieces/${isWhite ? 'w' : 'b'}${name}.png`;
+    const src = pieceMap[type];
 
     return (
-        <>
-            <img src={src} alt={type} className="piece" />
-        </>
-    )
-
+        <img src={src} alt={type} className="w-6 h-6 sm:w-8 sm:h-8 
+        md:w-10 md:h-10" />
+    );
 }
 
 export default Piece;
