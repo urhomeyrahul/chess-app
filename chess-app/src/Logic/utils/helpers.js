@@ -4,6 +4,6 @@ export default function isOpponentPiece(piece, color) {
         return false;
     else
         return color === 'white' ?
-            piece === piece.toUpperCase() :
-            piece === piece.toLowerCase()
+            piece === piece.toLowerCase() :
+            piece === piece.toUpperCase();
 }

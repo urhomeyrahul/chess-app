@@ -1,6 +1,6 @@
 import isOppositePiece from '../utils/helpers';
 
-export default function getPawnMoves(x, y, board, color) {
+export default function getPawnMoves(x, y, color, board) {
   const moves = [];
   const dir = color === 'white' ? -1 : 1;
   const startRow = color === 'white' ? 6 : 1;

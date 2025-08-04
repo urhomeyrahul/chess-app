@@ -3,8 +3,8 @@ import isOpponentPiece from '../utils/helpers';
 export default function getRookMoves(x, y, color, board) {
   const moves = [];
   const directions = [
-    [-1, 0], [1, 0],  // vertical
-    [0, -1], [0, 1]   // horizontal
+    [-1, 0], [1, 0],  
+    [0, -1], [0, 1]   
   ];
 
   for (const [dx, dy] of directions) {
