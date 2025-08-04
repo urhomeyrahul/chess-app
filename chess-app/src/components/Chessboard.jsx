@@ -26,11 +26,13 @@ function ChessBoard() {
     const [validMoves, setValidMoves] = useState([]);
     const [turn, setTurn] = useState('white');
     const [selected, setSelected] = useState(null);
+    const [hoverMoves, setHoveredMoves] = useState([]);
 
     const handleSquareClick = (x, y) => {
         const piece = board[x][y];
         if (!selected && piece && getPieceColor(piece) === turn) {
             const moves = getValidMovesForPiece(piece, x, y, board, turn);
+            console.log("Valid moves for", piece, "at", x, y, "=>", moves);
             setSelected([x, y]);
             setValidMoves(moves);
             return;
@@ -58,11 +60,23 @@ function ChessBoard() {
                 <div key={x} style={{ display: 'flex' }}>
                     {row.map((cell, y) => {
                         const isDark = (x + y) % 2 === 1;
-                        const isHighlighted = validMoves.some(([mx, my]) => mx === x && my === y);
+                        const isHighlighted = (validMoves.concat(hoverMoves).some(([mx, my]) => mx === x && my === y));
                         return (
                             <div
                                 key={`${x}-${y}`}
                                 onClick={() => handleSquareClick(x, y)}
+                                onMouseEnter={() => {
+                                    const cell = board[x][y];
+                                    if (!selected && cell && getPieceColor(cell) === turn) {
+                                        const hoverMoves = getValidMovesForPiece(cell, x, y, board, turn);
+                                        setHoveredMoves(hoverMoves);
+                                    }
+                                }}
+                                onMouseLeave={() => {
+                                    if (!selected) {
+                                        setHoveredMoves([]);
+                                    }
+                                }}
                                 style={{
                                     width: '60px',
                                     height: '60px',
@@ -75,6 +89,7 @@ function ChessBoard() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     border: '1px solid #444',
+                                    cursor: cell && getPieceColor(cell) === turn ? 'grab' : 'crosshair',
                                 }}
                             >
                                 {cell && <Piece type={cell} />}

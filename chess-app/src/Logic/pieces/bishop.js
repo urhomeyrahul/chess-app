@@ -1,26 +1,27 @@
 import isOpponentPiece from '../utils/helpers';
-import { initialBoard } from '../gamestat';
 
-export default function getBishopMoves(x, y, color) {
-    const direction = [
+export default function getBishopMoves(x, y, color, board) {
+    const directions = [
         [-1, -1], [-1, 1], [1, -1], [1, 1]
     ];
     const moves = [];
 
-    for (const [dx, dy] of direction) {
+    for (const [dx, dy] of directions) {
         let nx = x + dx;
         let ny = y + dy;
 
         while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
-            const target = initialBoard[nx][ny];
+            const target = board[nx][ny];
+
             if (target === '') {
-                moves.push(initialBoard[nx][ny]);
+                moves.push([nx, ny]);
             } else {
                 if (isOpponentPiece(target, color)) {
                     moves.push([nx, ny]);
                 }
-                break;
+                break; 
             }
+
             nx += dx;
             ny += dy;
         }

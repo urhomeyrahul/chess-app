@@ -1,35 +1,32 @@
-import isOpponentPiece from '../utils/helpers'
-import { initialBoard } from '../gamestat';
+import isOpponentPiece from '../utils/helpers';
 
-export default function getRookMoves(x, y, color) {
+export default function getRookMoves(x, y, color, board) {
+  const moves = [];
+  const directions = [
+    [-1, 0], [1, 0],  // vertical
+    [0, -1], [0, 1]   // horizontal
+  ];
 
-    const moves = [];
-    const direction = [
-        [-1, 0],
-        [1, 0],
-        [0, -1],
-        [0, 1]
-    ]
+  for (const [dx, dy] of directions) {
+    let nx = x + dx;
+    let ny = y + dy;
 
-    for (const [dx, dy] of direction) {
-        let nx = x + dy;
-        let ny = y + dy;
+    while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
+      const target = board[nx][ny];
 
-        while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8) {
-            const target = initialBoard[nx][ny];
-            if (target === '') {
-                moves.push(initialBoard[nx][ny]);
-            }
-            else {
-                if (isOpponentPiece(target, color)) {
-                    moves.push(initialBoardinitialBoardinitialBoard[nx][ny]);
-                    break;
-                }
-            }
-            nx += dx;
-            ny += ny;
+      if (target === '') {
+        moves.push([nx, ny]);
+      } else {
+        if (isOpponentPiece(target, color)) {
+          moves.push([nx, ny]);
         }
-    }
+        break;
+      }
 
-    return moves;
+      nx += dx;
+      ny += dy;
+    }
+  }
+
+  return moves;
 }
