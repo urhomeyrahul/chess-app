@@ -1,32 +1,13 @@
 import { initialBoard, getPieceColor } from '../Logic/gamestat';
 import { applyMove } from '../Logic/utils/moveUtils';
 import Piece from './Piece';
-
-import getBishopMoves from '../Logic/pieces/bishop';
-import getKingMoves from '../Logic/pieces/king';
-import getKnightMoves from '../Logic/pieces/knight';
-import getQueenMoves from '../Logic/pieces/queen';
-import getPawnMoves from '../Logic/pieces/pawn';
-import getRookMoves from '../Logic/pieces/rook';
 import { useState } from 'react';
-
-function getValidMovesForPiece(piece, x, y, board, color) {
-    const type = piece.toLowerCase();
-    switch (type) {
-        case 'p': return getPawnMoves(x, y, color, board);
-        case 'q': return getQueenMoves(x, y, color, board);
-        case 'n': return getKnightMoves(x, y, color, board);
-        case 'b': return getBishopMoves(x, y, color, board);
-        case 'k': return getKingMoves(x, y, color, board);
-        case 'r': return getRookMoves(x, y, color, board);
-        default: return [];
-    }
-}
+import getValidMovesForPiece from '../Logic/utils/getValidMovesForPiece';
 
 function ChessBoard() {
     const [board, setBoard] = useState(initialBoard);
     const [validMoves, setValidMoves] = useState([]);
-    const [turn, setTurn] = useState('white');
+    const [turn, setTurn] = useState('w');
     const [selected, setSelected] = useState(null);
     const [hoverMoves, setHoveredMoves] = useState([]);
     const [drag, setDrag] = useState([]);
@@ -35,7 +16,6 @@ function ChessBoard() {
         const piece = board[x][y];
         if (!selected && piece && getPieceColor(piece) === turn) {
             const moves = getValidMovesForPiece(piece, x, y, board, turn);
-            console.log("Valid moves for", piece, "at", x, y, "=>", moves);
             setSelected([x, y]);
             setValidMoves(moves);
             return;
@@ -49,7 +29,7 @@ function ChessBoard() {
                 setBoard(newBoard);
                 setSelected(null);
                 setValidMoves([]);
-                setTurn(turn === 'white' ? 'black' : 'white');
+                setTurn(turn === 'w' ? 'b' : 'w');
             } else {
                 setSelected(null);
                 setValidMoves([]);

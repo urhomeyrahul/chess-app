@@ -2,7 +2,8 @@ import isOpponentPiece from '../utils/helpers';
 
 export default function getBishopMoves(x, y, color, board) {
     const directions = [
-        [-1, -1], [-1, 1], [1, -1], [1, 1]
+        [-1, -1], [-1, 1],
+        [1, -1], [1, 1]
     ];
     const moves = [];
 
@@ -19,7 +20,7 @@ export default function getBishopMoves(x, y, color, board) {
                 if (isOpponentPiece(target, color)) {
                     moves.push([nx, ny]);
                 }
-                break; 
+                break; // Blocked by any piece
             }
 
             nx += dx;

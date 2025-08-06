@@ -1,9 +1,6 @@
-export default function isOpponentPiece(piece, color) {
+export default function isOpponentPiece(piece, currentColor) {
+    if (!piece) return false;
 
-    if (!piece)
-        return false;
-    else
-        return color === 'white' ?
-            piece === piece.toLowerCase() :
-            piece === piece.toUpperCase();
+    const pieceColor = piece === piece.toLowerCase() ? 'b' : 'w';
+    return pieceColor !== currentColor;
 }

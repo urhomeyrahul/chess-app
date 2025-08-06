@@ -3,7 +3,6 @@ import isOpponentPiece from '../utils/helpers';
 export default function getKnightMoves(x, y, color, board) {
   const moves = [];
 
-  // All 8 L-shaped moves
   const directions = [
     [-2, -1], [-2, 1],
     [-1, -2], [-1, 2],
