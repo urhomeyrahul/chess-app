@@ -10,7 +10,6 @@ function ChessBoard() {
     const [turn, setTurn] = useState('w');
     const [selected, setSelected] = useState(null);
     const [hoverMoves, setHoveredMoves] = useState([]);
-    const [drag, setDrag] = useState([]);
 
     const handleSquareClick = (x, y) => {
         const piece = board[x][y];
@@ -48,16 +47,7 @@ function ChessBoard() {
                             <div
                                 key={`${x}-${y}`}
                                 onClick={() => handleSquareClick(x, y)}
-                                onDrag={() => {
-                                    const cell = board[x][y];
-                                    if (!selected && cell && getPieceColor(cell) === turn) {
-                                        const drag = getValidMovesForPiece(cell, x, y, board, turn);
-                                        setDrag(drag);
-                                    }
-                                }}
-                                onDrop={() => {
-                                    if (!selected) setDrag([]);
-                                }}
+                                onDragOver={(e) => e.preventDefault()}
                                 onMouseEnter={() => {
                                     const cell = board[x][y];
                                     if (!selected && cell && getPieceColor(cell) === turn) {
@@ -65,9 +55,28 @@ function ChessBoard() {
                                         setHoveredMoves(hoverMoves);
                                     }
                                 }}
+                                draggable={true}
                                 onMouseLeave={() => {
                                     if (!selected) {
                                         setHoveredMoves([]);
+                                    }
+                                }}
+                                onDrop={(e) => {
+                                    const from = JSON.parse(e.dataTransfer.getData('text/plain'));
+                                    const to = [x, y];
+
+                                    const [fromX, fromY] = from;
+                                    const piece = board[fromX][fromY];
+
+                                    const valid = getValidMovesForPiece(piece, fromX, fromY, board, turn)
+                                        .some(([mx, my]) => mx === x && my === y);
+
+                                    if (valid) {
+                                        const newBoard = applyMove(board, from, to);
+                                        setBoard(newBoard);
+                                        setTurn(turn === 'w' ? 'b' : 'w');
+                                        setSelected(null);
+                                        setValidMoves([]);
                                     }
                                 }}
                                 style={{
@@ -85,7 +94,7 @@ function ChessBoard() {
                                     cursor: cell && getPieceColor(cell) === turn ? 'grab' : 'crosshair',
                                 }}
                             >
-                                {cell && <Piece type={cell} />}
+                                {cell && <Piece type={cell} position={[x, y]} />}
                             </div>
                         );
                     })}
