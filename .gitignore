@@ -21,6 +21,5 @@ node_modules
 *.sln
 *.sw?
 
-package-lock.json
-package.json
+
 read.jsx
