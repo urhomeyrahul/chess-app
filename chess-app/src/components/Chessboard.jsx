@@ -80,15 +80,14 @@ function ChessBoard() {
                                     }
                                 }}
                                 style={{
-                                    width: '60px',
-                                    height: '60px',
+                                    width: '40px',
+                                    height: '40px',
                                     backgroundColor: isHighlighted
                                         ? '#FFD700'
                                         : isDark
                                             ? '#769656'
                                             : '#eeeed2',
                                     display: 'flex',
-                                    // alignItems: 'center',
                                     justifyContent: 'center',
                                     border: '1px solid #444',
                                     cursor: cell && getPieceColor(cell) === turn ? 'grab' : 'crosshair',
