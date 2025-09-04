@@ -156,6 +156,14 @@ function ChessBoard() {
                 </div>
             ))}
 
+            {
+                !winner && (
+                    <div className='mt-4 text-xl font-semibold'>
+                        {turn === 'w' ? 'White' : 'Black'} <span> to Move </span>
+                    </div>
+                )
+            }
+
             {winner && (
                 <div className="mt-6 flex justify-between items-center w-[320px] text-2xl font-bold bg-gray-800 text-white px-4 py-2 rounded"
                     style={{ width: boardWidth }}>
