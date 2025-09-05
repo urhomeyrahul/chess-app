@@ -11,7 +11,7 @@ function ChessBoard() {
     const [selected, setSelected] = useState(null);
     const [hoverMoves, setHoveredMoves] = useState([]);
     const [winner, setWinner] = useState(null);
-    const [reset, setReset] = useState(false);
+    const [history, setHistory] = useState([]);
 
     const squareSize = 40; // px
     const boardWidth = squareSize * 8;
@@ -68,9 +68,18 @@ function ChessBoard() {
                 return;
             }
 
+            // ✅ Save current board/turn BEFORE move
+            setHistory(prev => [
+                ...prev,
+                {
+                    board: board.map(row => [...row]), // deep clone
+                    turn: turn
+                }
+            ]);
+
+            // Apply move
             const newBoard = applyMove(board, [fromX, fromY], [x, y]);
 
-            // always commit the board first so the capture is visible
             setBoard(newBoard);
             setSelected(null);
             setValidMoves([]);
@@ -78,11 +87,29 @@ function ChessBoard() {
             const w = detectWinner(newBoard);
             if (w) {
                 setWinner(w); // show "White/Black wins!"
-                return;       // do not switch turn, game over
+                return;       // stop here, game over
             }
 
+            // Switch turn
             setTurn(turn === 'w' ? 'b' : 'w');
         }
+    };
+
+    // ---- undo functionality ----
+    const undoMoves = () => {
+        if (history.length === 0) return; // nothing to undo
+
+        const lastState = history[history.length - 1];
+
+        setBoard(lastState.board);
+        setTurn(lastState.turn);
+        setHistory(history.slice(0, -1)); // pop stack
+
+        // reset UI state
+        setSelected(null);
+        setValidMoves([]);
+        setHoveredMoves([]);
+        setWinner(null);
     };
 
     return (
@@ -124,6 +151,14 @@ function ChessBoard() {
 
                                     if (!valid) return;
 
+                                    setHistory(prev => [
+                                        ...prev,
+                                        {
+                                            board: board.map(row => [...row]),
+                                            turn: turn
+                                        }
+                                    ]);
+
                                     const newBoard = applyMove(board, from, to);
 
                                     // commit board, then winner check
@@ -162,6 +197,13 @@ function ChessBoard() {
                         {turn === 'w' ? 'White' : 'Black'} <span> to Move </span>
                     </div>
                 )
+            }
+            &nbsp;&nbsp;
+            {
+                <button className='btn btn-secondary px-4 py-2 rounded-md ml-2'
+                    onClick={undoMoves}>
+                    Undo Move
+                </button>
             }
 
             {winner && (
