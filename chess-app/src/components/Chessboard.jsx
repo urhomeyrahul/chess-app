@@ -3,6 +3,7 @@ import { applyMove } from '../Logic/utils/moveUtils';
 import Piece from './Piece';
 import { useState } from 'react';
 import getValidMovesForPiece from '../Logic/utils/getValidMovesForPiece';
+import { getBestMove } from '../Logic/utils/minmax';
 
 function ChessBoard() {
     const [board, setBoard] = useState(initialBoard);
@@ -68,7 +69,7 @@ function ChessBoard() {
                 return;
             }
 
-            // ✅ Save current board/turn BEFORE move
+            //  Save current board/turn BEFORE move
             setHistory(prev => [
                 ...prev,
                 {
@@ -92,10 +93,24 @@ function ChessBoard() {
 
             // Switch turn
             setTurn(turn === 'w' ? 'b' : 'w');
+
+            //minmax implementation
+            if (turn === 'w') {
+                setTimeout(() => {
+                    const aiMove = getBestMove(newBoard, 'b', 3);
+                    if (aiMove) {
+                        const aiBoard = applyMove(newBoard, aiMove.from, aiMove.to)
+                        setBoard(aiBoard)
+
+                        const w = detectWinner(aiBoard)
+                        if (w) { setWinner(w); return; }
+                    }
+                    setTurn('w');
+                }, 300);
+            }
         }
     };
 
-    // ---- undo functionality ----
     const undoMoves = () => {
         if (history.length === 0) return; // nothing to undo
 
